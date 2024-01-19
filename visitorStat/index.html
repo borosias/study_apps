@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Time Chart</title>
+</head>
+<body>
+<div class="timeline" id="chartContainer"></div>
+
+
+<script>
+    const container = document.getElementById('chartContainer');
+    const data = [{
+        "from": "2023-05-30T05:56:28+00:00",
+        "to": "2023-05-30T05:57:10+00:00",
+    }, {
+        "from": "2023-05-30T06:01:01+00:00",
+        "to": "2023-05-30T06:49:31+00:00",
+    }, {
+        "from": "2023-05-30T07:04:21+00:00",
+        "to": "2023-05-30T07:05:26+00:00",
+    }, {
+        "from": "2023-05-30T08:27:42+00:00",
+        "to": "2023-05-30T08:28:52+00:00",
+    }, {
+        "from": "2023-05-30T08:29:43+00:00",
+        "to": "2023-05-30T08:31:28+00:00",
+    }, {
+        "from": "2023-05-30T10:19:15+00:00",
+        "to": "2023-05-30T10:21:02+00:00",
+    }, {
+        "from": "2023-05-30T16:50:26+00:00",
+        "to": "2023-05-30T16:50:49+00:00",
+    }, {
+        "from": "2023-05-30T17:03:12+00:00",
+        "to": "2023-05-30T17:04:24+00:00",
+    }, {
+        "from": "2023-05-30T17:05:11+00:00",
+        "to": "2023-05-30T17:05:55+00:00",
+    }, {
+        "from": "2023-05-30T19:29:46+00:00",
+        "to": "2023-05-30T19:31:04+00:00",
+    }, {
+        "from": "2023-05-30T20:42:28+00:00",
+        "to": "2023-05-30T20:43:31+00:00",
+    }]
+
+    function createChart() {
+        const firstTime = new Date(data[0].from);
+        const dayStart = new Date(Date.UTC(firstTime.getUTCFullYear(), firstTime.getUTCMonth(), firstTime.getUTCDate()));
+        const dayEnd = new Date(Date.UTC(firstTime.getUTCFullYear(), firstTime.getUTCMonth(), firstTime.getUTCDate(), 23, 59, 59, 999));
+        const fullDay = dayEnd - dayStart;
+
+        const firstGapWidth = (firstTime - dayStart) / fullDay;
+        const firstGap = document.createElement('div');
+        firstGap.classList.add('gap');
+        firstGap.style.width = `${firstGapWidth * 100}%`;
+        container.appendChild(firstGap);
+
+        data.forEach((timeSet, index) => {
+            const visitStart = new Date(timeSet.from);
+            const visitEnd = new Date(timeSet.to);
+            const durationWidth = (visitEnd - visitStart) / fullDay;
+
+            let gap;
+            let gapWidth;
+            if (index !== 0) {
+                gapWidth = (visitStart - new Date(data[index - 1].to)) / fullDay;
+                gap = document.createElement('div');
+                gap.style.width = `${gapWidth * 100}%`;
+                gap.classList.add('gap');
+                container.appendChild(gap);
+            }
+
+            // Проверка ширины
+
+
+            const visit = document.createElement('div');
+            visit.style.width = `${durationWidth * 100}%`;
+            visit.classList.add('visit');
+
+            const circlePoint = document.createElement('div')
+            circlePoint.classList.add("circle")
+            if (gapWidth < 900_000 / fullDay) {
+                circlePoint.style.zIndex = `${index}`
+            }
+            circlePoint.style.width = `${durationWidth * 100}vw`
+
+            container.appendChild(visit);
+            visit.appendChild(circlePoint)
+
+            if (index === data.length - 1) {
+                const lastGapWidth = (dayEnd - visitEnd) / fullDay;
+                const lastGap = document.createElement('div');
+                lastGap.style.width = `${lastGapWidth * 100}%`;
+                lastGap.classList.add('gap-last');
+                container.appendChild(lastGap);
+            }
+        });
+    }
+
+    createChart();
+</script>
+</body>
+</html>
+
+
+
+

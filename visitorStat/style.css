@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline {
+    display: flex;
+    max-width: 70vw;
+    min-width: 300px; /* Минимальная ширина для адаптивности */
+    height: 24px;
+    padding: 10px;
+    border-radius: 22px;
+    background: rgba(169, 255, 182, 0.35);
+    overflow: hidden; /* Чтобы скрыть переполнение */
+}
+
+.visit {
+    display: flex;
+    justify-content: center;
+    min-height: 24px;
+    /* Отступ между кружочками */
+}
+.circle {
+    margin: 0 auto;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 12px;
+    background-color: #259545;
+}
+
+.gap,.gap-last{
+    background-color: transparent;
+    min-height: 24px;
+    min-width: 5px;
+}
+
